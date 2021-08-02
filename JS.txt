@@ -1,0 +1,38 @@
+import {LightningElement,wire,track} from 'lwc';
+import getRecords from '@salesforce/apex/AccountController.getRecords';
+const columns = [{
+   label: 'View',
+   type: 'button-icon',
+   initialWidth: 75,
+   typeAttributes: {
+       iconName: 'action:preview',
+       title: 'Preview',
+       variant: 'border-filled',
+       alternativeText: 'View'
+   }
+},
+{
+   label : "Name",
+   fieldName : "Name"
+},
+{
+   label : "Type",
+   fieldName : "Type"
+}
+];
+export default class propDemo extends LightningElement{
+ @track columns = columns;
+ @track bShowModal = false;
+ @track records = {};
+ @wire (getRecords) accounts;
+ handleRowAction(event)
+ {
+    const row = event.detail.row;
+    this.record = row;
+    this.bShowModal = true;
+ }
+ closeModal()
+ {
+    this.bShowModal = false;
+ }
+}
